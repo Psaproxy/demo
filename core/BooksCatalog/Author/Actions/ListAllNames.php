@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Core\BooksCatalog\Author\Actions;
 
 use Core\BooksCatalog\Author\IDataProvider;
-use Core\BooksCatalog\Author\View\NameDTO;
+use Core\BooksCatalog\Author\DTO\NameDTO;
 
 class ListAllNames
 {

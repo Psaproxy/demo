@@ -3,10 +3,10 @@ window._ = require('lodash');
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-let csrfToken = document.head.querySelector('meta[name="csrf-token"]');
-if (csrfToken) {
-    window.csrfToken = csrfToken.content;
-    window.axios.defaults.headers.common['X-CSRF-Token'] = csrfToken.content;
+let csrfTokenEl = document.head.querySelector('meta[name="csrf-token"]');
+if (csrfTokenEl) {
+    window.csrfToken = csrfTokenEl.content;
+    window.axios.defaults.headers.common['X-CSRF-Token'] = csrfTokenEl.content;
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
@@ -23,7 +23,6 @@ window.Echo = new Echo({
     encrypted: false,
     disableStats: true,
     enabledTransports: ['ws'],
-    authEndpoint: 'http://localhost:13380/laravel-websockets/auth',
     auth: {
         headers: {
             'X-App-ID': process.env.MIX_PUSHER_APP_ID,

@@ -49,6 +49,14 @@ php: up
 cli: up
 	$(docker) exec -it -u $(shell id -u) $(cli_container_name) php artisan $(ARGS)
 
+# Запуск tinker
+run-tinker: up
+	$(docker) exec -it -u $(shell id -u) $(cli_container_name) php artisan tinker
+
+# Запуск сервера WebSocket
+run-ws-server: up
+	$(docker) exec -it -u $(shell id -u) $(cli_container_name) php artisan websockets:serve
+
 # Выполнение команды npm. Пример: make npm ARGS="install --save laravel-echo pusher-js"
 npm: up
 	$(docker) exec -it -u $(shell id -u) $(cli_container_name) npm $(ARGS)

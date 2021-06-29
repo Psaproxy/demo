@@ -12,9 +12,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static bool saveOrFail(array $values = [])
  * @method static self findOrFail($id, $columns = ['*'])
  * @method static self[] all($columns = ['*'])
- * @property string id
- * @property string author_id
- * @property string title
+ * @property string $id
+ * @property string $author_id
+ * @property string $title
  * @property \DateTimeImmutable created_at
  * @property \DateTimeImmutable updated_at
  */

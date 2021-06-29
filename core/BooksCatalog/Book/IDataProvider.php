@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Core\BooksCatalog\Book;
 
 use Core\BooksCatalog\Book\Props\BookId;
-use Core\BooksCatalog\Book\View\BookDTO;
+use Core\BooksCatalog\Book\DTO\BookDTO;
 
 interface IDataProvider
 {

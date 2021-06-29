@@ -1,9 +1,9 @@
 <?php
 /** @noinspection DuplicatedCode */
 
+use App\Http\Controllers\BooksCatalog\BannerController;
 use App\Http\Controllers\BooksCatalog\BookAuthorController;
 use App\Http\Controllers\BooksCatalog\BookController;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +22,14 @@ Route::get('/', function () {
 });
 
 require __DIR__ . '/auth.php';
+
+/**
+ * Banner
+ */
+Route::prefix('/banner')->name('banner.')->group(function () {
+    Route::get('/', [BannerController::class, 'get'])->name('get');
+    Route::get('/get-stat', [BannerController::class, 'getStat'])->name('getStat');
+});
 
 Route::middleware(['auth'])->group(function () {
     /**

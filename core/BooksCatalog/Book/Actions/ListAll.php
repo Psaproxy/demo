@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Core\BooksCatalog\Book\Actions;
 
 use Core\BooksCatalog\Book\IDataProvider;
-use Core\BooksCatalog\Book\View\BookDTO;
+use Core\BooksCatalog\Book\DTO\BookDTO;
 
 class ListAll
 {

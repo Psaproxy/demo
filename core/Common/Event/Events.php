@@ -16,6 +16,11 @@ trait Events
         $this->events[] = $event;
     }
 
+    private function pushEvents(Event ...$events): void
+    {
+        $this->events = array_merge($this->events, $events);
+    }
+
     /**
      * @return array<Event>
      */

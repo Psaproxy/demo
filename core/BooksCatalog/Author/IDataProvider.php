@@ -6,7 +6,7 @@ namespace Core\BooksCatalog\Author;
 
 use Core\BooksCatalog\Author\Props\AuthorId;
 use Core\BooksCatalog\Author\Props\Name;
-use Core\BooksCatalog\Author\View\AuthorDTO;
+use Core\BooksCatalog\Author\DTO\AuthorDTO;
 
 interface IDataProvider
 {

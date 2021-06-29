@@ -6,7 +6,7 @@ namespace Core\BooksCatalog\Author\Actions;
 
 use Core\BooksCatalog\Author\IDataProvider;
 use Core\BooksCatalog\Author\Props\AuthorId;
-use Core\BooksCatalog\Author\View\AuthorDTO;
+use Core\BooksCatalog\Author\DTO\AuthorDTO;
 
 class Get
 {

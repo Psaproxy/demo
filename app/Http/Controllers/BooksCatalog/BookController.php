@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\BooksCatalog;
 
-use App\Events\WebSocketTest;
 use App\Http\Controllers\Controller;
 use Core\BooksCatalog\Author\Actions\ListAllNames;
 use Core\BooksCatalog\Book\Actions\Add;
@@ -12,8 +11,6 @@ use Core\BooksCatalog\Book\Actions\ListAll;
 use Core\BooksCatalog\Book\Actions\Update;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
