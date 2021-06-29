@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\BooksCatalog;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Core\Counter\Actions\GetUpdatedAt;
 use Core\Counter\Actions\GetValue;
 use Core\Counter\Actions\IncValue;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use function resource_path;
+use function response;
 
 class BannerController extends Controller
 {

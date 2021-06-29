@@ -1,7 +1,7 @@
 <?php
 /** @noinspection DuplicatedCode */
 
-use App\Http\Controllers\BooksCatalog\BannerController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BooksCatalog\BookAuthorController;
 use App\Http\Controllers\BooksCatalog\BookController;
 use Illuminate\Support\Facades\Route;
