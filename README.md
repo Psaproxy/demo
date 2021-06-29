@@ -43,7 +43,7 @@ UI слой (контроллеры) взаимодействуют только
 ### Баннер
 
 Контроллер `app/Http/Controllers/BannerController`.
-Бизнес-логика `core/Counter`.
+Бизнес-логика `core`.
 
 CLI команды баннера:
 - Сброс кеша баннера `make cli ARGS=banner:reset-cache`
