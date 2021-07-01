@@ -7,7 +7,6 @@ namespace Core\Counter;
 use Core\Common\Event\Events;
 use Core\Counter\Events\CounterCacheWasFlushed;
 use Core\Counter\Props\CounterId;
-use Core\Counter\Props\Value;
 
 class CounterService
 {
@@ -22,30 +21,27 @@ class CounterService
         $this->repository = $repository;
     }
 
-    public function incValue(CounterId $id): void
+    public function incValueOffset(CounterId $id): void
     {
-        // Прогрев кеша.
-        $this->cache->heating($id);
-
-        $this->cache->incValue($id);
+        $this->cache->incValueOffset($id);
+        $this->cache->setUpdatedAtNow($id);
     }
 
     public function flushCache(CounterId $id): void
     {
-        $isNewCounter = false;
-        $counter = $this->repository->find($id);
+        $valueOffset = $this->cache->getValueOffset($id);
 
-        if (null === $counter) {
-            $isNewCounter = true;
-            $counter = new Counter($id, new Value(0));
+        if (true === $valueOffset->isEmpty()) {
+            return;
         }
 
-        $counter->setValue($this->cache->getValue($id));
-        $counter->setUpdatedAt($this->cache->getUpdatedAt($id));
-
-        if (true === $isNewCounter) {
+        $counter = $this->repository->find($id);
+        if (null === $counter) {
+            $counter = new Counter($id, $valueOffset);
             $this->repository->add($counter);
         } else {
+            $counter->incValue($valueOffset);
+            $counter->setUpdatedAt($this->cache->getUpdatedAt($id));
             $this->repository->update($counter);
         }
 

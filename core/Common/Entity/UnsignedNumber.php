@@ -29,13 +29,18 @@ class UnsignedNumber
         return (string)$this->value();
     }
 
-    public function equals(Number $text): bool
+    public function equals(UnsignedNumber $value): bool
     {
-        return $this->value() === $text->value();
+        return $this->value() === $value->value();
     }
 
     public function isEmpty(): bool
     {
         return empty($this->value());
+    }
+
+    public function inc(UnsignedNumber $value): void
+    {
+        $this->value += $value->value();
     }
 }

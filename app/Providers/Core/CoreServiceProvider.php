@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Providers\Core;
 
 use App\Infrastructure\Event\EventsPublisher;
-use App\Infrastructure\DB\DBTransaction;
 use App\Infrastructure\Storage\BooksCatalog\Author\DataConverter as DataConverterBookAuthor;
 use App\Infrastructure\Storage\BooksCatalog\Author\DataProvider as DataProviderBookAuthor;
 use App\Infrastructure\Storage\BooksCatalog\Author\DBGateway as DBGatewayBookAuthor;
@@ -20,6 +19,7 @@ use App\Infrastructure\Storage\Counter\Cache as CacheCounter;
 use App\Infrastructure\Storage\Counter\DBGateway as DBGatewayCounter;
 use App\Infrastructure\Storage\Counter\RepoConverter as RepoConverterCounter;
 use App\Infrastructure\Storage\Counter\Repository as RepositoryCounter;
+use App\Infrastructure\Storage\DBTransaction;
 use Core\BooksCatalog\Author\IDataProvider as IDataProviderBookAuthor;
 use Core\BooksCatalog\Author\IDBGateway as IDBGatewayBookAuthor;
 use Core\BooksCatalog\Author\IRepository as IRepositoryBookAuthor;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\DB;
+namespace App\Infrastructure\Storage;
 
 use Core\Common\Action\IDBTransaction;
 use Illuminate\Support\Facades\DB;

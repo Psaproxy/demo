@@ -20,64 +20,61 @@ class Cache implements ICache
         $this->client = Redis::connection()->client();
     }
 
-    public function incValue(CounterId $id): void
+    public function incValueOffset(CounterId $id): void
     {
-        $this->client->incr("counter:{$id->value()}:value");
-        $this->client->set("counter:{$id->value()}:updated_at", (new \DateTimeImmutable())->getTimestamp());
+        $this->client->incr($this->key($id, 'value_offset'));
     }
 
-    public function getValue(CounterId $id): Value
+    public function getValueOffset(CounterId $id): Value
     {
-        $value = $this->client->get("counter:{$id->value()}:value");
+        $value = $this->client->get($this->key($id, 'value_offset'));
 
-        if (false !== $value) {
-            return new Value((int)$value);
+        return new Value((int)$value);
+    }
+
+    public function findValue(CounterId $id): ?Value
+    {
+        $value = $this->client->get($this->key($id, 'value'));
+
+        if (false === $value) {
+            $value = (string)$this->dbGateway->findValue($id);
+            $this->client->set($this->key($id, 'value'), $value);
         }
 
-        $value = $this->dbGateway->getValue($id);
-        $this->client->set("counter:{$id->value()}:value", $value->value());
+        return false === $value ? null : new Value((int)$value);
+    }
 
-        return $value;
+    public function setUpdatedAtNow(CounterId $id): void
+    {
+        $this->client->set($this->key($id, 'updated_at'), (new \DateTimeImmutable())->getTimestamp());
     }
 
     public function getUpdatedAt(CounterId $id): \DateTimeImmutable
     {
-        $updateAt = $this->client->get("counter:{$id->value()}:updated_at");
+        $updateAt = $this->client->get($this->key($id, 'updated_at'));
 
         if (false !== $updateAt) {
             return (new \DateTimeImmutable())->setTimestamp((int)$updateAt);
         }
 
         $updateAt = $this->dbGateway->getUpdatedAt($id);
-        $this->client->set("counter:{$id->value()}:updated_at", $updateAt->getTimestamp());
+
+        $this->client->set($this->key($id, 'updated_at'), $updateAt->getTimestamp());
 
         return $updateAt;
-    }
-
-    public function heating(CounterId $id): void
-    {
-        $value = $this->client->get("counter:{$id->value()}:value");
-        if (false === $value) {
-            $value = $this->dbGateway->findValue($id);
-            if (null !== $value) {
-                $this->client->set("counter:{$id->value()}:value", $value->value());
-            }
-        }
-
-        $updateAt = $this->client->get("counter:{$id->value()}:updated_at");
-        if (false === $updateAt) {
-            $updateAt = $this->dbGateway->findUpdatedAt($id);
-            if (null !== $updateAt) {
-                $this->client->set("counter:{$id->value()}:updated_at", $updateAt->getTimestamp());
-            }
-        }
     }
 
     public function reset(CounterId $id): void
     {
         $this->client->del(
-            "counter:{$id->value()}:value",
-            "counter:{$id->value()}:updated_at"
+            $this->key($id, 'value_offset'),
+            $this->key($id, 'value'),
+            $this->key($id, 'updated_at'),
         );
+    }
+
+    private function key(CounterId $id, string $key): string
+    {
+        return "counter:{$id->value()}:$key";
     }
 }

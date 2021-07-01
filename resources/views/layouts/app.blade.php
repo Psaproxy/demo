@@ -13,6 +13,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @stack('styles')
 </head>
 <body class="font-sans antialiased">
 
@@ -21,7 +22,7 @@
 @include('banner.widget')
 
 <div class="min-h-screen bg-gray-100">
-@include('layouts.navigation')
+    @include('layouts.navigation')
 
     <!-- Page Heading -->
     <header class="bg-white shadow">

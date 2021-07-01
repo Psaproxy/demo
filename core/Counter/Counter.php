@@ -44,7 +44,16 @@ final class Counter
     {
         $this->value = $value;
 
-        $this->addEvent(new CounterValueWasUpdated($this->id, $value));
+        $this->addEvent(new CounterValueWasUpdated($this->id, $this->value));
+
+        return $this;
+    }
+
+    public function incValue(Value $value = null): self
+    {
+        $this->value->inc(null === $value ? new Value() : $value);
+
+        $this->addEvent(new CounterValueWasUpdated($this->id, $this->value));
 
         return $this;
     }
@@ -58,7 +67,7 @@ final class Counter
     {
         $this->updatedAt = $dateTime;
 
-        $this->addEvent(new CounterUpdatedAtWasUpdated($this->id, $dateTime));
+        $this->addEvent(new CounterUpdatedAtWasUpdated($this->id, $this->updatedAt));
 
         return $this;
     }

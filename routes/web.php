@@ -18,9 +18,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
-    app()->make(\Core\Counter\Actions\IncValue::class)->execute('banner');
-
     return view('welcome');
 });
 

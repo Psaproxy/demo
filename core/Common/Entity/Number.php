@@ -23,9 +23,9 @@ class Number
         return (string)$this->value();
     }
 
-    public function equals(Number $text): bool
+    public function equals(Number $value): bool
     {
-        return $this->value() === $text->value();
+        return $this->value() === $value->value();
     }
 
     public function isEmpty(): bool

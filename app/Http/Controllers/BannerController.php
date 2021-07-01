@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Core\Counter\Actions\GetUpdatedAt;
-use Core\Counter\Actions\GetValue;
-use Core\Counter\Actions\IncValue;
+use Core\Counter\Actions\GetStat;
+use Core\Counter\Actions\IncValueOffset;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use function resource_path;
@@ -12,15 +11,13 @@ use function response;
 
 class BannerController extends Controller
 {
-    private IncValue $incValue;
-    private GetValue $getValue;
-    private GetUpdatedAt $getUpdatedAt;
+    private IncValueOffset $incValue;
+    private GetStat $getStat;
 
-    public function __construct(IncValue $incValue, GetValue $getValue, GetUpdatedAt $getUpdatedAt)
+    public function __construct(IncValueOffset $incValue, GetStat $getStat)
     {
         $this->incValue = $incValue;
-        $this->getValue = $getValue;
-        $this->getUpdatedAt = $getUpdatedAt;
+        $this->getStat = $getStat;
     }
 
     /**
@@ -28,9 +25,7 @@ class BannerController extends Controller
      */
     public function get(): BinaryFileResponse
     {
-        $id = 'banner';
-
-        $this->incValue->execute($id);
+        $this->incValue->execute('banner');
 
         return response()->file(resource_path('images/banner.png'));
     }
@@ -40,11 +35,17 @@ class BannerController extends Controller
      */
     public function getStat(): JsonResponse
     {
-        $id = 'banner';
+        $stat = $this->getStat->execute('banner');
+
+        if (0 === $stat->value) {
+            $updateAt = '';
+        } else {
+            $updateAt = $stat->updateAt->format('H:i:s d.m.Y');
+        }
 
         return response()->json([
-            'value' => $this->getValue->execute($id),
-            'update_at' => $this->getUpdatedAt->execute($id)->format('H:i:s d.m.Y'),
+            'value' => $stat->value,
+            'update_at' => $updateAt,
         ]);
     }
 }

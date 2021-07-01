@@ -8,7 +8,7 @@ use Core\Common\Event\IEventsPublisher;
 use Core\Counter\CounterService;
 use Core\Counter\Props\CounterId;
 
-class IncValue
+class IncValueOffset
 {
     private CounterService $service;
     private IEventsPublisher $events;
@@ -24,7 +24,7 @@ class IncValue
      */
     public function execute(string $id): void
     {
-        $this->service->incValue(new CounterId($id));
+        $this->service->incValueOffset(new CounterId($id));
         $this->events->publish(...$this->service->releaseEvents());
     }
 }

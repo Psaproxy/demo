@@ -1,4 +1,4 @@
-require('./bootstrap');
+require('../bootstrap');
 
 document.addEventListener('DOMContentLoaded', function () {
     let userIdEl = document.head.querySelector('meta[name="user-id"]');
