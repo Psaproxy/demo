@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Core\Counter\Cache;
+namespace App\Infrastructure\Storage\Counter;
 
-use App\Infrastructure\Core\Counter\MySql\DBGateway;
 use Core\Counter\ICache;
 use Core\Counter\Props\CounterId;
 use Core\Counter\Props\Value;

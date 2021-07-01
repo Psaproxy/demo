@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Core\Counter\MySql;
+namespace App\Infrastructure\Storage\Counter;
 
 use App\Models\Counter as CounterModel;
 use Core\Counter\Counter;

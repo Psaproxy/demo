@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Core\Counter\MySql;
+namespace App\Infrastructure\Storage\Counter;
 
 use Core\Common\Exceptions\EntityNotFoundException;
 use Core\Counter\IDBGateway;

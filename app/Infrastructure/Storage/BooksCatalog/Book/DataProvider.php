@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Core\BooksCatalog\Book\MySql;
+namespace App\Infrastructure\Storage\BooksCatalog\Book;
 
+use Core\BooksCatalog\Book\DTO\BookDTO;
 use Core\BooksCatalog\Book\IDataProvider;
 use Core\BooksCatalog\Book\Props\BookId;
-use Core\BooksCatalog\Book\DTO\BookDTO;
 use Illuminate\Support\Facades\DB;
 
 class DataProvider implements IDataProvider

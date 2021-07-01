@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Core\BooksCatalog\Book\MySql;
+namespace App\Infrastructure\Storage\BooksCatalog\Book;
 
 use App\Models\Book as BookModel;
 use Core\BooksCatalog\Book\Book;

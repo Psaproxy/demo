@@ -2,23 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Core\BooksCatalog\Book\MySql;
+namespace App\Infrastructure\Storage\BooksCatalog\Author;
 
 use App\Infrastructure\ReflectionClass;
-use App\Models\Book as BookModel;
+use App\Models\BookAuthor as AuthorModel;
+use Core\BooksCatalog\Author\Author;
 use Core\BooksCatalog\Author\Props\AuthorId;
-use Core\BooksCatalog\Book\Book;
-use Core\BooksCatalog\Book\Props\BookId;
-use Core\BooksCatalog\Book\Props\Title;
+use Core\BooksCatalog\Author\Props\Name;
 
 class RepoConverter
 {
-    public function toModel(Book $entity): BookModel
+    public function toModel(Author $entity): AuthorModel
     {
-        $model = new BookModel();
+        $model = new AuthorModel();
         $model->id = $entity->id()->value();
-        $model->author_id = $entity->authorId()->value();
-        $model->title = $entity->title()->value();
+        $model->name = $entity->name()->value();
         $model->created_at = $entity->createdAt();
 
         return $model;
@@ -28,17 +26,16 @@ class RepoConverter
      * @throws \ReflectionException
      * @throws \Exception
      */
-    public function toEntity(BookModel $model): Book
+    public function toEntity(AuthorModel $model): Author
     {
-        /** @var Book $entity */
+        /** @var Author $entity */
         /** @noinspection PhpUnnecessaryLocalVariableInspection */
         /** @noinspection PhpUndefinedMethodInspection */
         $entity = ReflectionClass::newInstanceWithoutConstructor(
-            Book::class,
+            Author::class,
             [
-                'id' => new BookId($model->id),
-                'author_id' => new AuthorId($model->author_id),
-                'title' => new Title($model->title),
+                'id' => new AuthorId($model->id),
+                'name' => new Name($model->name),
                 'created_at' => $model->created_at->toDateTimeImmutable(),
                 'updated_at' => $model->updated_at->toDateTimeImmutable(),
             ]
@@ -48,14 +45,14 @@ class RepoConverter
     }
 
     /**
-     * @param BookModel ...$models
-     * @return Book[]
+     * @param AuthorModel ...$models
+     * @return Author[]
      * @throws \ReflectionException
      */
-    public function toEntities(BookModel ...$models): array
+    public function toEntities(AuthorModel ...$models): array
     {
         return array_map(
-            fn(BookModel $model) => $this->toEntity($model),
+            fn(AuthorModel $model) => $this->toEntity($model),
             $models
         );
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Core\BooksCatalog\Author\MySql;
+namespace App\Infrastructure\Storage\BooksCatalog\Author;
 
 use App\Models\BookAuthor as BookAuthorModel;
 use Core\BooksCatalog\Author\Author;

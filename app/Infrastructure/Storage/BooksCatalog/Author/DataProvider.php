@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Core\BooksCatalog\Author\MySql;
+namespace App\Infrastructure\Storage\BooksCatalog\Author;
 
 use App\Models\BookAuthor as BookAuthorModel;
+use Core\BooksCatalog\Author\DTO\AuthorDTO;
 use Core\BooksCatalog\Author\IDataProvider;
 use Core\BooksCatalog\Author\Props\AuthorId;
 use Core\BooksCatalog\Author\Props\Name;
-use Core\BooksCatalog\Author\DTO\AuthorDTO;
 use Illuminate\Support\Facades\DB;
 
 class DataProvider implements IDataProvider
