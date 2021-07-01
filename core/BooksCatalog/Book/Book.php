@@ -47,7 +47,7 @@ final class Book
     {
         $this->authorId = $authorId;
 
-        $this->addEvent(new BookAuthorIdWasUpdate($this->id, $authorId));
+        $this->addEvent(new BookAuthorIdWasUpdate($this->id, $this->authorId));
 
         return $this;
     }
@@ -61,7 +61,7 @@ final class Book
     {
         $this->title = $title;
 
-        $this->addEvent(new BookTitleWasUpdate($this->id, $title));
+        $this->addEvent(new BookTitleWasUpdate($this->id, $this->title));
 
         return $this;
     }

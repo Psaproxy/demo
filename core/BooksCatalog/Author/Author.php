@@ -43,7 +43,7 @@ final class Author
     {
         $this->name = $name;
 
-        $this->addEvent(new AuthorNameWasUpdated($this->id, $name));
+        $this->addEvent(new AuthorNameWasUpdated($this->id, $this->name));
 
         return $this;
     }
