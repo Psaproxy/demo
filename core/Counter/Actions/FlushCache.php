@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Core\Counter\Actions;
 
 use Core\Common\Action\IDBTransaction;
+use Core\Common\Action\ISemaphores;
 use Core\Common\Action\TransactionalAction;
 use Core\Common\Event\IEventsPublisher;
 use Core\Counter\CounterService;
@@ -14,9 +15,11 @@ class FlushCache extends TransactionalAction
 {
     private CounterService $service;
     private IEventsPublisher $events;
+    private ISemaphores $semaphores;
 
     public function __construct(
         IDBTransaction $transaction,
+        ISemaphores $semaphores,
         CounterService $service,
         IEventsPublisher $events,
     )
@@ -24,6 +27,7 @@ class FlushCache extends TransactionalAction
         parent::__construct($transaction);
         $this->service = $service;
         $this->events = $events;
+        $this->semaphores = $semaphores;
     }
 
     /**
@@ -31,6 +35,8 @@ class FlushCache extends TransactionalAction
      */
     public function execute(string $id): void
     {
+        $this->semaphores->lockAndWait('banner', 50);
+
         $this->transaction(function () use ($id) {
             $id = new CounterId($id);
             $this->service->flushCache($id);

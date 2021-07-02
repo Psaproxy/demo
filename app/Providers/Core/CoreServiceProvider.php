@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers\Core;
 
 use App\Infrastructure\Event\EventsPublisher;
+use App\Infrastructure\Semaphores;
 use App\Infrastructure\Storage\BooksCatalog\Author\DataConverter as DataConverterBookAuthor;
 use App\Infrastructure\Storage\BooksCatalog\Author\DataProvider as DataProviderBookAuthor;
 use App\Infrastructure\Storage\BooksCatalog\Author\DBGateway as DBGatewayBookAuthor;
@@ -27,6 +28,7 @@ use Core\BooksCatalog\Book\IDataProvider as IDataProviderBook;
 use Core\BooksCatalog\Book\IDBGateway as IDBGatewayBook;
 use Core\BooksCatalog\Book\IRepository as IRepositoryBook;
 use Core\Common\Action\IDBTransaction;
+use Core\Common\Action\ISemaphores;
 use Core\Common\Event\IEventsPublisher;
 use Core\Counter\ICache as ICacheCounter;
 use Core\Counter\IDBGateway as IDBGatewayCounter;
@@ -43,6 +45,9 @@ class CoreServiceProvider extends ServiceProvider
         IEventsPublisher::class => EventsPublisher::class,
 
         // Infrastructure
+        ISemaphores::class => Semaphores::class,
+
+        // Transaction
         IDBTransaction::class => DBTransaction::class,
 
         // BookAuthor
