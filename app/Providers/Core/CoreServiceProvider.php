@@ -16,6 +16,7 @@ use App\Infrastructure\Storage\BooksCatalog\Book\DataProvider as DataProviderBoo
 use App\Infrastructure\Storage\BooksCatalog\Book\DBGateway as DBGatewayBook;
 use App\Infrastructure\Storage\BooksCatalog\Book\RepoConverter as RepoConverterBook;
 use App\Infrastructure\Storage\BooksCatalog\Book\Repository as RepositoryBook;
+use App\Infrastructure\Storage\CacheTransaction;
 use App\Infrastructure\Storage\Counter\Cache as CacheCounter;
 use App\Infrastructure\Storage\Counter\DBGateway as DBGatewayCounter;
 use App\Infrastructure\Storage\Counter\RepoConverter as RepoConverterCounter;
@@ -27,6 +28,7 @@ use Core\BooksCatalog\Author\IRepository as IRepositoryBookAuthor;
 use Core\BooksCatalog\Book\IDataProvider as IDataProviderBook;
 use Core\BooksCatalog\Book\IDBGateway as IDBGatewayBook;
 use Core\BooksCatalog\Book\IRepository as IRepositoryBook;
+use Core\Common\Action\ICacheTransaction;
 use Core\Common\Action\IDBTransaction;
 use Core\Common\Action\ISemaphores;
 use Core\Common\Event\IEventsPublisher;
@@ -49,6 +51,7 @@ class CoreServiceProvider extends ServiceProvider
 
         // Transaction
         IDBTransaction::class => DBTransaction::class,
+        ICacheTransaction::class => CacheTransaction::class,
 
         // BookAuthor
         RepoConverterBookAuthor::class => RepoConverterBookAuthor::class,

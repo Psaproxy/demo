@@ -7,21 +7,23 @@ namespace Core\BooksCatalog\Author\Actions;
 use Core\BooksCatalog\Author\Props\AuthorId;
 use Core\BooksCatalog\BooksCatalogService;
 use Core\Common\Action\IDBTransaction;
-use Core\Common\Action\TransactionalAction;
+use Core\Common\Action\DBTransactionalAction;
 use Core\Common\Event\IEventsPublisher;
 
-class Delete extends TransactionalAction
+class Delete
 {
+    use DBTransactionalAction;
+
     private BooksCatalogService $service;
     private IEventsPublisher $events;
 
     public function __construct(
-        IDBTransaction $transaction,
+        IDBTransaction $dbTransaction,
         BooksCatalogService $service,
         IEventsPublisher $events,
     )
     {
-        parent::__construct($transaction);
+        $this->initDBTransaction($dbTransaction);
         $this->service = $service;
         $this->events = $events;
     }
@@ -36,7 +38,7 @@ class Delete extends TransactionalAction
      */
     public function execute(string $authorId): void
     {
-        $this->transaction(function () use ($authorId) {
+        $this->dbTransaction(function () use ($authorId) {
             $this->service->deleteAuthor(new AuthorId($authorId));
             $this->events->publish(...$this->service->releaseEvents());
         });

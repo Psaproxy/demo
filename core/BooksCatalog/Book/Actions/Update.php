@@ -9,24 +9,26 @@ use Core\BooksCatalog\Book\IDBGateway;
 use Core\BooksCatalog\Book\IRepository;
 use Core\BooksCatalog\Book\Props\BookId;
 use Core\BooksCatalog\Book\Props\Title;
+use Core\Common\Action\DBTransactionalAction;
 use Core\Common\Action\IDBTransaction;
-use Core\Common\Action\TransactionalAction;
 use Core\Common\Event\IEventsPublisher;
 
-class Update extends TransactionalAction
+class Update
 {
+    use DBTransactionalAction;
+
     private IRepository $repository;
     private IDBGateway $dbGateway;
     private IEventsPublisher $events;
 
     public function __construct(
-        IDBTransaction $transaction,
+        IDBTransaction $dbTransaction,
         IRepository $repository,
         IDBGateway $dbGateway,
         IEventsPublisher $events,
     )
     {
-        parent::__construct($transaction);
+        $this->initDBTransaction($dbTransaction);
         $this->repository = $repository;
         $this->events = $events;
         $this->dbGateway = $dbGateway;
@@ -42,7 +44,7 @@ class Update extends TransactionalAction
      */
     public function execute(string $id, string $authorId, string $title): void
     {
-        $this->transaction(function () use ($id, $authorId, $title) {
+        $this->dbTransaction(function () use ($id, $authorId, $title) {
             $book = $this->repository->get(new BookId($id));
             $book->updateAuthorId(new AuthorId($authorId));
             $book->updateTitle(new Title($title));

@@ -9,21 +9,23 @@ use Core\BooksCatalog\Book\Book;
 use Core\BooksCatalog\Book\IRepository;
 use Core\BooksCatalog\Book\Props\Title;
 use Core\Common\Action\IDBTransaction;
-use Core\Common\Action\TransactionalAction;
+use Core\Common\Action\DBTransactionalAction;
 use Core\Common\Event\IEventsPublisher;
 
-class Add extends TransactionalAction
+class Add
 {
+    use DBTransactionalAction;
+
     private IRepository $repository;
     private IEventsPublisher $events;
 
     public function __construct(
-        IDBTransaction $transaction,
+        IDBTransaction $dbTransaction,
         IRepository $repository,
         IEventsPublisher $events,
     )
     {
-        parent::__construct($transaction);
+        $this->initDBTransaction($dbTransaction);
         $this->repository = $repository;
         $this->events = $events;
     }
@@ -38,7 +40,7 @@ class Add extends TransactionalAction
      */
     public function execute(string $authorId, string $title): void
     {
-        $this->transaction(function () use ($authorId, $title) {
+        $this->dbTransaction(function () use ($authorId, $title) {
             $book = new Book(new AuthorId($authorId), new Title($title));
             $this->repository->add($book);
             $this->events->publish(...$book->releaseEvents());
