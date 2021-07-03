@@ -11,4 +11,9 @@ interface IDBTransaction
     public function commit(): void;
 
     public function rollBack(): void;
+
+    /**
+     * @throws \Throwable
+     */
+    public function transaction(callable $processAction): void;
 }

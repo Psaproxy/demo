@@ -23,4 +23,20 @@ class DBTransaction implements IDBTransaction
     {
         DB::commit();
     }
+
+    /**
+     * @throws \Throwable
+     */
+    public function transaction(callable $processAction): void
+    {
+        try {
+            $this->beginTransaction();
+            $processAction();
+            $this->commit();
+        } catch (\Throwable $exception) {
+            $this->rollBack();
+
+            throw $exception;
+        }
+    }
 }

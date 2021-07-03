@@ -7,13 +7,11 @@ namespace Core\BooksCatalog\Author\Actions;
 use Core\BooksCatalog\Author\Props\AuthorId;
 use Core\BooksCatalog\BooksCatalogService;
 use Core\Common\Action\IDBTransaction;
-use Core\Common\Action\DBTransactionalAction;
 use Core\Common\Event\IEventsPublisher;
 
 class Delete
 {
-    use DBTransactionalAction;
-
+    private IDBTransaction $dbTransaction;
     private BooksCatalogService $service;
     private IEventsPublisher $events;
 
@@ -23,7 +21,7 @@ class Delete
         IEventsPublisher $events,
     )
     {
-        $this->initDBTransaction($dbTransaction);
+        $this->dbTransaction = $dbTransaction;
         $this->service = $service;
         $this->events = $events;
     }
@@ -38,7 +36,7 @@ class Delete
      */
     public function execute(string $authorId): void
     {
-        $this->dbTransaction(function () use ($authorId) {
+        $this->dbTransaction->transaction(function () use ($authorId) {
             $this->service->deleteAuthor(new AuthorId($authorId));
             $this->events->publish(...$this->service->releaseEvents());
         });

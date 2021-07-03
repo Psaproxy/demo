@@ -26,4 +26,20 @@ class CacheTransaction implements ICacheTransaction
         /** @noinspection PhpUndefinedMethodInspection */
         Redis::exec();
     }
+
+    /**
+     * @throws \Throwable
+     */
+    public function transaction(callable $processAction): void
+    {
+        try {
+            $this->beginTransaction();
+            $processAction();
+            $this->commit();
+        } catch (\Throwable $exception) {
+            $this->rollBack();
+
+            throw $exception;
+        }
+    }
 }

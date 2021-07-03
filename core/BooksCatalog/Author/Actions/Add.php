@@ -7,14 +7,12 @@ namespace Core\BooksCatalog\Author\Actions;
 use Core\BooksCatalog\Author\Author;
 use Core\BooksCatalog\Author\IRepository;
 use Core\BooksCatalog\Author\Props\Name;
-use Core\Common\Action\DBTransactionalAction;
 use Core\Common\Action\IDBTransaction;
 use Core\Common\Event\IEventsPublisher;
 
 class Add
 {
-    use DBTransactionalAction;
-
+    private IDBTransaction $dbTransaction;
     private IRepository $repository;
     private IEventsPublisher $events;
 
@@ -24,7 +22,7 @@ class Add
         IEventsPublisher $events,
     )
     {
-        $this->initDBTransaction($dbTransaction);
+        $this->dbTransaction = $dbTransaction;
         $this->repository = $repository;
         $this->events = $events;
     }
@@ -39,7 +37,7 @@ class Add
      */
     public function execute(string $name): void
     {
-        $this->dbTransaction(function () use ($name) {
+        $this->dbTransaction->transaction(function () use ($name) {
             $author = new Author(new Name($name));
             $this->repository->add($author);
             $this->events->publish(...$author->releaseEvents());

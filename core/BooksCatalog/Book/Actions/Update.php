@@ -9,14 +9,12 @@ use Core\BooksCatalog\Book\IDBGateway;
 use Core\BooksCatalog\Book\IRepository;
 use Core\BooksCatalog\Book\Props\BookId;
 use Core\BooksCatalog\Book\Props\Title;
-use Core\Common\Action\DBTransactionalAction;
 use Core\Common\Action\IDBTransaction;
 use Core\Common\Event\IEventsPublisher;
 
 class Update
 {
-    use DBTransactionalAction;
-
+    private IDBTransaction $dbTransaction;
     private IRepository $repository;
     private IDBGateway $dbGateway;
     private IEventsPublisher $events;
@@ -28,7 +26,7 @@ class Update
         IEventsPublisher $events,
     )
     {
-        $this->initDBTransaction($dbTransaction);
+        $this->dbTransaction = $dbTransaction;
         $this->repository = $repository;
         $this->events = $events;
         $this->dbGateway = $dbGateway;
@@ -44,7 +42,7 @@ class Update
      */
     public function execute(string $id, string $authorId, string $title): void
     {
-        $this->dbTransaction(function () use ($id, $authorId, $title) {
+        $this->dbTransaction->transaction(function () use ($id, $authorId, $title) {
             $book = $this->repository->get(new BookId($id));
             $book->updateAuthorId(new AuthorId($authorId));
             $book->updateTitle(new Title($title));
